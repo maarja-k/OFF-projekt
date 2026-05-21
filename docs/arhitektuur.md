@@ -45,18 +45,18 @@ flowchart LR
 
 | Roll | Vastutus | Täitja |
 |------|----------|--------|
-| Andmeallika omanik | Kirjutab sissevõtu loogika, hoiab API-t töös | [Nimi] |
-| Transformatsioonide omanik | Kirjutab mart kihi mudelid ja mõõdikute arvutuse | [Nimi] |
-| Kvaliteedi omanik | Kirjutab testid ja vaatab läbi ebaõnnestunud kontrollid | [Nimi] |
-| Näidikulaua omanik | Ehitab näidikulaua ja seob selle äriküsimusega | [Nimi] |
+| Andmeallika omanik | Kirjutab sissevõtu loogika, hoiab API-t töös | [Karl Räim] |
+| Transformatsioonide omanik | Kirjutab mart kihi mudelid ja mõõdikute arvutuse | [Maarja Kukk] |
+| Kvaliteedi omanik | Kirjutab testid ja vaatab läbi ebaõnnestunud kontrollid | [Maarja Kukk, Anni Marie Maripuu] |
+| Näidikulaua omanik | Ehitab näidikulaua ja seob selle äriküsimusega | [Anni Marie Maripuu, Marge Saamel] |
 
 ## Riskid
 
 | Risk | Mõju | Maandus |
 |------|------|---------|
-| [Risk 1 — näiteks: API ei vasta] | [Mis juhtub?] | [Kuidas maandad?] |
-| [Risk 2] | [Mis juhtub?] | [Kuidas maandad?] |
-| [Risk 3] | [Mis juhtub?] | [Kuidas maandad?] |
+| [Andmeallika napp dokumentatsioon] | [Mis juhtub?] | [Kuidas maandad?] |
+| [Delta failide ühendamine staatilise andmebaasiga] | [Mis juhtub?] | [Kuidas maandad?] |
+| [Ajaressurss] | [Mis juhtub?] | [Kuidas maandad?] |
 
 ## Privaatsus ja turve
 
