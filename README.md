@@ -122,7 +122,7 @@ Testide tulemused: [kuhu salvestatakse / kuidas vaadata]
 
 | Nimi | Roll |
 |------|------|
-| [Nimi 1] | [Roll] |
-| [Nimi 2] | [Roll] |
-| [Nimi 3] | [Roll] |
-| [Nimi 4] | [Roll — vabatahtlik] |
+| [Karl Räim] | [Andmete sissevõtt] |
+| [Maarja Kukk] | [Transformeerimine, kvaliteedikontroolid] |
+| [Marge Saamel] | [Dokumenteerimine, andmete visualiseerimine] |
+| [Anni Maire Maripuu] | [Andmete visualiseerimine] |
