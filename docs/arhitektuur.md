@@ -2,7 +2,7 @@
 
 ## Äriküsimus
 
-Kui hästi katab [Open Food Facts andmebaas[(https://world.openfoodfacts.org/discover) Eesti turul müüdavaid toidutooteid ja kui terviklikud on nende andmed?
+Kui hästi katab [Open Food Facts andmebaas](https://world.openfoodfacts.org/discover) Eesti turul müüdavaid toidutooteid ja kui terviklikud on nende andmed?
 
 ## Mõõdikud
 
