@@ -1,46 +1,59 @@
 # [GRUPI NIMI] — [Eesti andmete maht, terviklikkus ja uuenemine Open Food Facts andmebaasis]
 
-> **Juhend:** Asenda kõik nurksulgudes vormid oma sisuga enne esitamist. Kustuta see juhendrida.
-
 ## Äriküsimus
 
-[Open Food Facts (https://world.openfoodfacts.org/) on avalik, vabatahtlike poolt täiendatav andmebaas, mis koondab rohkem kui nelja miljoni toidu pakendiandmeid 150 riigist. Projekti eesmärk on hinnata, kuivõrd esinduslik on Open Food Facts andmebaas Eesti puhul ning kas see oleks kasutatav rakenduste loomiseks ja teadustöö sisendina.]
+Kui hästi katab [Open Food Facts andmebaas](https://world.openfoodfacts.org/discover) Eesti turul müüdavaid toidutooteid ja kui terviklikud on nende andmed?
+
+Open Food Facts on avalik, vabatahtlike poolt täiendatav andmebaas, mis koondab rohkem kui nelja miljoni toidu pakendiandmeid 150 riigist. Andmebaasi on võimalik kasutada näiteks rakenduste loomiseks ja teadustöö sisendina.
 
 **Mõõdikud:**
 
-1. [Eestis müüdavate toodete koguarv andmebaasis ja lisanduvate toodete arv päevas]
-2. [Toodete arv/osakaal tootekategooriate järgi]
-3. [Andmete terviklikkus: toodete arv/osakaal, millel on olemas 1) energia ja peamiste toitainete sisaldus, 2) koostisosade nimekiri, 3) pakendi materjal, 4) kogus (netomass/ruumala vmt)]
+1. Eestis müüdavate toodete koguarv andmebaasis
+2. Lisanduvate toodete arv päevas
+3. Andmete terviklikkus: toodete arv/osakaal, millel on olemas:
+   1) energia ja peamiste toitainete sisaldus,
+   2) koostisosade nimekiri,
+   3) pakendi materjal,
+   4) kogus (netomass/ruumala vmt).
+
+Võimalusel arvutame mõõdikud ka tootekategooriate lõikes.
 
 ## Arhitektuur
 
 ```mermaid
-flowchart LR
-    source[Andmeallikas] --> ingest[Sissevõtt]
-    ingest --> staging[(staging)]
-    staging --> transform[Transformatsioon]
-    transform --> mart[(mart)]
-    mart --> dashboard[Näidikulaud]
+flowchart TD
+csv[OpenFoodFacts CSV snapshot] --> py[Python ingestion scripts]
+airflow[Airflow scheduler] -->|"@daily"| txt[Delta index TXT]
+txt --> jsonl[Daily delta JSONL files]
+airflow -->|BashOperator| dbt[dbt run + dbt test]
+jsonl --> py
+py --> raw[(staging.raw_products)]
+raw -->|dbt staging| stg[staging.stg_products]
+stg -->|dbt intermediate| int[intermediate.int_product_metrics]
+int -->|dbt marts| mart1[(marts.mart_product_growth)]
+int -->|dbt marts| mart2[(marts.mart_data_completeness)]
+mart1 --> dashboard[Superset dashboard]
+mart2 --> dashboard
 ```
-
 Täpsem kirjeldus: [`docs/arhitektuur.md`](docs/arhitektuur.md)
 
 ## Andmestik
 
 | Allikas | Tüüp | Ajas muutuv? | Roll |
 |---------|------|--------------|------|
-| [Andmeallika nimi] | [API / fail / andmebaas] | Jah, [iga päevas] | Põhiandmevoog |
-| [Eestis müüdavad tooted seisuga xx.05.2026] | [seed] | Ei, staatiline | Kõrvaltabel |
+| OpenFoodFacts andmebaas | CSV| Jah, iga päev | Algne andmestiku laadimine |
+| OpenFoodFacts delta loend | TXT | Jah, iga päev | Andmestiku uuendamine |
+| OpenFoodFacts päeva delta | JSONL | Jah/Ei (iga deltafail eraldi on staatiline, aga iga päev lisandub uus fail) | Andmestiku uuendamine |
 
 ## Stack
 
 | Komponent | Tööriist |
 |-----------|---------|
-| Sissevõtt | [Python] |
-| Transformatsioon | [SQL / dbt? ] |
+| Sissevõtt | Python |
+| Transformatsioon | [Python / SQL / dbt? ] |
 | Andmehoidla | [DuckDB] |
 | Näidikulaud | [Superset] |
-| Orkestreerimine | [cron / Airflow?] |
+| Orkestreerimine | [Airflow] |
 
 ## Käivitamine
 
