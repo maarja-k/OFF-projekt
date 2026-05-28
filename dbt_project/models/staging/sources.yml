@@ -1,0 +1,39 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw ingestitud OpenFoodFacts andmed"
+
+    schema: raw
+
+    tables:
+      - name: raw_products
+        description: "Minimaalselt töödeldud OpenFoodFacts snapshot"
+        
+        columns:
+          - name: code
+            description: "OpenFoodFacts tootekood"
+
+          - name: product_name
+            description: "Toote nimi"
+
+          - name: countries_tags
+            description: "Riikide tagid"
+
+          - name: created_t
+            description: "Unix timestamp kirje loomisest"
+
+          - name: last_modified_t
+            description: "Unix timestamp viimasest muudatusest"
+
+          - name: completeness
+            description: "OpenFoodFacts completeness score"
+
+          - name: nutriscore_grade
+            description: "Nutri-Score tähtklass"
+
+          - name: nova_group
+            description: "NOVA töötlusgrupp"
+
+          - name: environmental_score_grade
+            description: "Keskkonnamõju hinnang"

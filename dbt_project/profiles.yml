@@ -11,6 +11,6 @@ off_projekt:
       password: "{{ env_var('POSTGRES_PASSWORD') }}"
       dbname: "{{ env_var('POSTGRES_DB') }}"
 
-      schema: staging
+      schema: public
 
       threads: 2

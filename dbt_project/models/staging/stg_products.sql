@@ -1,0 +1,88 @@
+select
+    -- IDENTIFIERS
+    code as product_code,
+    url,
+
+    -- TIMESTAMPS
+    created_t,
+    created_datetime,
+    last_modified_t,
+    last_modified_datetime,
+    last_updated_t,
+    last_updated_datetime,
+
+    -- PRODUCT INFO
+    product_name,
+    abbreviated_product_name,
+    generic_name,
+
+    -- CLASSIFICATION
+    brands,
+    brands_tags,
+    categories,
+    categories_tags,
+    categories_en,
+    main_category,
+    main_category_en,
+
+    -- GEOGRAPHY
+    countries,
+    countries_tags,
+    countries_en,
+
+    -- PACKAGING / QUANTITY
+    quantity,
+    product_quantity,
+    packaging,
+    packaging_tags,
+    packaging_text,
+
+    -- INGREDIENTS / ALLERGENS
+    ingredients_text,
+    ingredients_tags,
+    allergens,
+    allergens_en,
+    traces,
+    traces_tags,
+    additives_n,
+    additives_tags,
+
+    -- QUALITY / COMPLETENESS
+    completeness,
+    unique_scans_n,
+    states,
+    states_tags,
+    data_quality_errors_tags,
+
+    -- SCORES
+    nutriscore_score,
+    nutriscore_grade,
+    nova_group,
+    environmental_score_score,
+    environmental_score_grade,
+
+    -- FOOD GROUPS
+    pnns_groups_1,
+    pnns_groups_2,
+    food_groups,
+    food_groups_tags,
+    food_groups_en,
+
+    -- IMAGES
+    image_url,
+    image_small_url,
+    image_ingredients_url,
+    image_nutrition_url,
+
+    -- CORE NUTRITION
+    "energy-kcal_100g" as energy_kcal_100g,
+    fat_100g,
+    "saturated-fat_100g" as saturated_fat_100g,
+    carbohydrates_100g,
+    sugars_100g,
+    fiber_100g,
+    proteins_100g,
+    salt_100g,
+    sodium_100g
+
+from {{ source('raw', 'raw_products') }}
