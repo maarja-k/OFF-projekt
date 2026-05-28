@@ -1,0 +1,45 @@
+# temporary notes
+notes/
+
+# environments
+.env
+.venv/
+venv/
+
+# python
+__pycache__/
+*.pyc
+
+# dbt
+dbt_project/.user.yml
+dbt_project/target/
+dbt_project/logs/
+dbt_project/dbt_packages/
+
+# airflow
+airflow/logs/
+
+# local databases
+*.csv.gz
+*.duckdb
+*.db
+*.parquet
+!data/bootstrap/ee_products_bootstrap.parquet
+
+# data
+data/snapshots/*
+data/deltas/*
+data/state/*
+
+# keep placeholders
+!data/snapshots/.gitkeep
+!data/deltas/.gitkeep
+!data/state/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,27 @@
+name: "off_projekt"
+version: "1.0.0"
+
+profile: "off_projekt"
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  off_projekt:
+
+    staging:
+      +schema: staging
+      +materialized: view
+
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+
+    marts:
+      +schema: marts
+      +materialized: table

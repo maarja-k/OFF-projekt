@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: raw_products
+
+models:
+  - name: stg_products
+
+    columns:
+      - name: product_code
+        tests:
+          - not_null
+          - unique
+
+      - name: created_datetime
+        tests:
+          - not_null
+
+      - name: energy_kcal_100g
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+
+      - name: proteins_100g
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+
+      - name: fat_100g
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
+
+      - name: carbohydrates_100g
+        tests:
+          - dbt_utils.accepted_range:
+              min_value: 0
+              inclusive: true
