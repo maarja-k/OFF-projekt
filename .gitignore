@@ -24,6 +24,7 @@ airflow/logs/
 *.duckdb
 *.db
 *.parquet
+!data/bootstrap/ee_products_bootstrap.parquet
 
 # data
 data/snapshots/*
