@@ -2,23 +2,77 @@ services:
   # --- Peamine analüütika andmebaas ---
   analytics-db:
     image: pgduckdb/pgduckdb:18-v1.1.1
+
     container_name: off-analytics-db
+
     env_file:
       - .env
+
     ports:
       - "${POSTGRES_PORT}:5432"
+
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+
     volumes:
-      - ./init:/docker-entrypoint-initdb.d # Mount the init directory for initialization scripts
-      - analytics_db_vol:/var/lib/postgresql # Use a named volume for persistent data storage
+      - ./init:/docker-entrypoint-initdb.d
+      - analytics_db_vol:/var/lib/postgresql
+
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-praktikum}"]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
       interval: 10s
       retries: 5
       start_period: 5s
+
+  # --- Airflow container ---
+  airflow:
+    image: apache/airflow:3.1.8
+
+    container_name: off-airflow
+
+    depends_on:
+      analytics-db:
+        condition: service_healthy
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./:/opt/project
+
+    working_dir: /opt/project
+
+    entrypoint: /bin/bash
+
+    command: -c "tail -f /dev/null"
+
+    restart: unless-stopped
+
+  # --- dbt container ---
+  dbt:
+    image: ghcr.io/dbt-labs/dbt-postgres:1.9.0
+
+    container_name: off-dbt
+
+    depends_on:
+      analytics-db:
+        condition: service_healthy
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./:/opt/project
+
+    working_dir: /opt/project/dbt_project
+
+    entrypoint: /bin/bash
+
+    command: -c "tail -f /dev/null"
+
+    restart: unless-stopped
 
 volumes:
   analytics_db_vol:

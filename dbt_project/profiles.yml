@@ -1,0 +1,16 @@
+off_projekt:
+  target: dev
+
+  outputs:
+    dev:
+      type: postgres
+      host: analytics-db
+      port: 5432
+
+      user: "{{ env_var('POSTGRES_USER') }}"
+      password: "{{ env_var('POSTGRES_PASSWORD') }}"
+      dbname: "{{ env_var('POSTGRES_DB') }}"
+
+      schema: staging
+
+      threads: 2
