@@ -32,8 +32,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.airflow
+      
 
     container_name: off-airflow
+
+    platform: linux/amd64
+    entrypoint: /bin/bash
 
     depends_on:
       analytics-db:
@@ -66,7 +70,7 @@ services:
     restart: unless-stopped
 
     command: >
-      bash -c "
+      -c "
         airflow db migrate &&
         airflow users create -u ${AIRFLOW_USER} -p ${AIRFLOW_PASSWORD} -f Airflow -l Admin -r Admin -e admin@example.com || true &&
         airflow dag-processor &
