@@ -9,7 +9,7 @@ Open Food Facts on avalik, vabatahtlike poolt täiendatav andmebaas, mis koondab
 **Mõõdikud:**
 
 1. Eestis müüdavate toodete koguarv andmebaasis
-2. Lisanduvate toodete arv päevas
+2. Lisanduvate toodete arv kuus/päevas
 3. Andmete terviklikkus: toodete arv/osakaal, millel on olemas:
    1) energia ja peamiste toitainete sisaldus,
    2) koostisosade nimekiri,
@@ -315,8 +315,8 @@ http://localhost:8080
 Kasutajanimi ja parool määratakse `.env` failis:
 
 ```env
-AIRFLOW_USER=admin
-AIRFLOW_PASSWORD=admin
+AIRFLOW_USER=off-projekt
+AIRFLOW_PASSWORD=off-projekt
 ```
 
 ### 8. Käivita DAG esmakordselt
@@ -384,14 +384,29 @@ dashboard.jpg
 ## Kokkuvõte, puudused ja võimalikud edasiarendused
 
 **Kokkuvõte:**
-- [Loetle, mis on lõpule viidud, mis töötab hästi]
-- Superset dashboard on esimesel korral ette laetud (andmebaasi ühendus, datasetid, chart'id)
+- Loodi täielikult Docker Compose'il põhinev andmetorustik Open Food Facts andmete töötlemiseks.
+- Töövoog laadib alla bootstrap-andmestiku, filtreerib huvipakkuvad tunnused ja andmed laaditakse PostgreSQL _raw_ andmekihti.
+- Andmestiku uuendamiseks kasutatakse deltafaile, mis registreeritakse, laaditakse alla ja töödeldakse automaatselt.
+- Lahendati Open Food Facts delta andmeformaadi muutumine (RELATIONAL → MAP) ning toetati mõlemat skeemiversiooni.
+- Loodi metadata tabelid bootstrap- ja deltafailide töötluse jälgimiseks ning korduva töötluse vältimiseks.
+- Andmete sissevõtu ja transformatsioonide orkestreerimiseks rakendati Airflow DAG-i.
+- Loodi dbt mudelid toorandmete teisendamiseks puhastus- (_staging_, _intermediate_) ja ärikihiks (_marts_).
+- Rakendati dbt testid andmekvaliteedi kontrollimiseks.
+- Loodi Superset näidikulaud andmete visualiseerimiseks, mis on esimesel käivitamisel automaatselt ette seadistatud (andmebaasi ühendus, andmetabelid ja visualisatsioonid).
 
 **Puudused:**
-- [Loetle ausalt, mis jäi tegemata - see ei mõjuta hinnet negatiivselt, vaid aitab hinnata]
+- Bootstrap-andmestiku laadimine toimub eraldi protsessina ning ei ole veel täielikult integreeritud automaatsesse Airflow töövoogu.
+- Mõnes töötlusetapis kasutatakse DuckDB päringutulemuste täielikku laadimist mällu (fetchall()), mis võib suuremate andmemahtude korral põhjustada mäluprobleeme.
+- Airflow töövoog kasutab peamiselt BashOperator-eid; Airflow spetsiifilisi operaatoreid ja ühenduste haldust kasutatakse minimaalselt.
+- Transformatsioonid toorandmete töötlemiseks ja kvaliteedikontrollid on teadlikult lihtsustatud, et saavutada projektitöö eesmärgid, ning need ei keskendu täielikule dimensionaalsele modelleerimisele.
 
 **Mis edasi:**
-- [Mida tahaksid edasi teha, kui aega oleks rohkem]
+- Muuta bootstrap- ja delta-ingest täielikult idempotentseks ning ühendada need üheks automaatselt taastatavaks andmetoruks.
+- Optimeerida DuckDB töötlust ja vähendada mälukasutust suuremate failide töötlemisel.
+- Rakendada inkrementaalsed dbt mudelid, et vähendada ümbertöötluse mahtu ja parandada jõudlust.
+- Lisada täiendavad andmekvaliteedi kontrollid ja ärireeglid dbt testide kujul.
+- Laiendada warehouse-andmemudelit täiendavate mõõtmete, faktitabelite ja ajapõhiste analüüsidega.
+- Täiendada Superset näidikulauda ning lisada automaatne seire ja teavitused töötlusvigade korral.
 
 ## Meeskond
 
